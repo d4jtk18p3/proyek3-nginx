@@ -1,0 +1,23 @@
+name: deployment
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'd4jtk18p3/proyek3-ansible-playbook'
+      - name: Install dependencies
+        run: sudo apt-get install -y sshpass
+      - name: Deploy nginx
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: site.yml
+          options: |
+            -i staging.yml
+            --tags nginx
