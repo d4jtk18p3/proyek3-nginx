@@ -1,6 +1,7 @@
 name: deployment
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - staging
@@ -18,6 +19,7 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: site.yml
+          vault_password: ${{ secrets.VAULT_PASSWORD }}
           options: |
-            -i staging.yml
-            --tags nginx
+            -i staging
+            -e role_name=nginx
